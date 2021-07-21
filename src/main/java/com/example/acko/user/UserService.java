@@ -91,9 +91,7 @@ public class UserService {
 
 	public String signInUser(LoginRequest request) {
 		
-		if(!userRepository.existsByEmail(request.getEmail())) {
-			return "User with email " + request.getEmail() + " doesn't exist in our database, please sign Up";
-		}
+		
 		
 		Authentication authentication = manager.authenticate(
 				new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));

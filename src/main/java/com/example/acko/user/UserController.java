@@ -58,6 +58,10 @@ public class UserController {
 	@PostMapping("/signInUser")
 	public ResponseEntity userSignIn(@RequestBody LoginRequest request, String token) {
 		
+		if(!userRepository.existsByEmail(request.getEmail())) {
+			return ResponseEntity.badRequest().body("User with email " + request.getEmail() + " doesn't exist in our database, please sign Up");
+		}
+		
 		return ResponseEntity.ok(userService.signInUser(request));
 		
 	}
