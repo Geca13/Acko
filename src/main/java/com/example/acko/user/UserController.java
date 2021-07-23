@@ -4,10 +4,17 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.acko.securityConfiguration.JwtTokenService;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 
@@ -16,6 +23,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RequestMapping("/auth")
 public class UserController {
 	
+	@Autowired
+	AuthenticationManager manager;
+	
+	@Autowired
+	JwtTokenService tokenProvider;
 	
 	@Autowired
 	UserService userService;
@@ -62,7 +74,14 @@ public class UserController {
 			return ResponseEntity.badRequest().body("User with email " + request.getEmail() + " doesn't exist in our database, please sign Up");
 		}
 		
-		return ResponseEntity.ok(userService.signInUser(request));
+		Authentication authentication = manager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+		String accessJwt = tokenProvider.generate(principal.getId(), principal.getEmail(), principal.getRole());
+		
+		
+		return ResponseEntity.ok(new JwtResponse(accessJwt, principal.getEmail(), principal.getAuthorities()));
 		
 	}
 	
