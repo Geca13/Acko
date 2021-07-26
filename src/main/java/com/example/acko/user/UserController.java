@@ -81,7 +81,7 @@ public class UserController {
 		String accessJwt = tokenProvider.generate(principal.getId(), principal.getEmail(), principal.getRole());
 		
 		
-		return ResponseEntity.ok(new JwtResponse(accessJwt, principal.getEmail(), principal.getAuthorities()));
+		return ResponseEntity.ok(new JwtResponse(true ,accessJwt));
 		
 	}
 	

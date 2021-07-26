@@ -8,22 +8,35 @@ import lombok.Data;
 
 @Data
 public class JwtResponse {
-	
-	private String token;
-	
-	private String type = "Bearer";
-	
-	private String email;
-	
-	private Collection<? extends GrantedAuthority> authorities;
+    private boolean success;
+    private String token;
 
-	public JwtResponse(String token, String email, Collection<? extends GrantedAuthority> authorities) {
-		super();
-		this.token = token;
-		this.email = email;
-		this.authorities = authorities;
-	}
-	
-	
+    public JwtResponse(boolean success, String token) {
+        this.success = success;
+        this.token = token;
+    }
 
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "JwtResponse{" +
+                "success=" + success +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }
