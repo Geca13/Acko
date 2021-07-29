@@ -3,6 +3,7 @@ package com.example.acko.user;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.acko.securityConfiguration.JwtTokenService;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -83,6 +86,14 @@ public class UserController {
 		
 		return ResponseEntity.ok(new JwtResponse(true ,accessJwt));
 		
+	}
+	
+	@GetMapping("/my-profile/email")
+	public ResponseEntity loggedInProfile(@PathVariable(value = "email") String email) {
+		
+		User user = userRepository.findByEmail(email);
+		
+		return ResponseEntity.ok(user);
 	}
 	
 	
