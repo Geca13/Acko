@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -68,7 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 		.authorizeRequests()
-		.antMatchers("/auth/signUpAdmin" , "/auth/signUpUser" , "/auth/signInUser")
+		.antMatchers("/auth/**")
+		
 		.permitAll()
 		.anyRequest()
 		.authenticated();

@@ -5,11 +5,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,7 +90,7 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/my-profile/email")
+	@GetMapping("/my-profile/{email}")
 	public ResponseEntity loggedInProfile(@PathVariable(value = "email") String email) {
 		
 		User user = userRepository.findByEmail(email);
@@ -96,6 +98,18 @@ public class UserController {
 		return ResponseEntity.ok(user);
 	}
 	
+//	@PutMapping("/users/{id:[0-9]+}")
+//	@PreAuthorize("#id == principal.id")
+//	User updateUser(@PathVariable long id, @Valid @RequestBody(required = false) User userUpdate) {
+//		User updated = userService.update(id, userUpdate);
+//		return updated;
+//	}
 	
+	@PostMapping("/my-profile/{id:[0-9]+}")
+	@PreAuthorize("#id == principal.id")
+	public ResponseEntity updateLoggedInUser(@PathVariable Long id, @Valid @RequestBody(required = false) User userUpdate) {
+		User updated = userService.update(id, userUpdate);
+		return ResponseEntity.ok(updated);
+	}
 
 }

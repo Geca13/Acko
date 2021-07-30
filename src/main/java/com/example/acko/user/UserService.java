@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -100,6 +102,14 @@ public class UserService {
 		String accessJwt = tokenProvider.generate(principal.getId(), principal.getEmail(), principal.getRole());
 		return accessJwt;
 		
+	}
+
+	public User update(Long id, @Valid User userUpdate) {
+		User user = userRepository.findById(id).get();
+		user.setFirstName(userUpdate.getFirstName());
+		user.setLastName(userUpdate.getLastName());
+		user.setEmail(userUpdate.getEmail());
+		return userRepository.save(user);
 	}
 	
 	
