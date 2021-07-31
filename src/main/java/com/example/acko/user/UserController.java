@@ -105,10 +105,9 @@ public class UserController {
 //		return updated;
 //	}
 	
-	@PostMapping("/my-profile/{id:[0-9]+}")
-	@PreAuthorize("#id == principal.id")
-	public ResponseEntity updateLoggedInUser(@PathVariable Long id, @Valid @RequestBody(required = false) User userUpdate) {
-		User updated = userService.update(id, userUpdate);
+	@PostMapping("/my-profile/{email}")
+	public ResponseEntity updateLoggedInUser(@PathVariable String email, @Valid @RequestBody(required = false) User userUpdate) {
+		User updated = userService.update(email, userUpdate);
 		return ResponseEntity.ok(updated);
 	}
 

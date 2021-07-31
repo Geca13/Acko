@@ -104,8 +104,8 @@ public class UserService {
 		
 	}
 
-	public User update(Long id, @Valid User userUpdate) {
-		User user = userRepository.findById(id).get();
+	public User update(String email, @Valid User userUpdate) {
+		User user = userRepository.findByEmail(email);
 		user.setFirstName(userUpdate.getFirstName());
 		user.setLastName(userUpdate.getLastName());
 		user.setEmail(userUpdate.getEmail());
