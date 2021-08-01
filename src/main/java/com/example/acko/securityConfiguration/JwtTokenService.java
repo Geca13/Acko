@@ -13,6 +13,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 import com.example.acko.exceptions.InvalidTokenException;
+import com.example.acko.user.User;
 import com.example.acko.user.UserPrincipal;
 import com.example.acko.user.UserRepository;
 

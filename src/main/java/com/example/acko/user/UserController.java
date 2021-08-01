@@ -86,7 +86,7 @@ public class UserController {
 		String accessJwt = tokenProvider.generate(principal.getId(), principal.getEmail(), principal.getRole());
 		
 		
-		return ResponseEntity.ok(new JwtResponse(true ,accessJwt));
+		return ResponseEntity.ok(new JwtResponse(true ,"Bearer " + accessJwt));
 		
 	}
 	
@@ -98,12 +98,7 @@ public class UserController {
 		return ResponseEntity.ok(user);
 	}
 	
-//	@PutMapping("/users/{id:[0-9]+}")
-//	@PreAuthorize("#id == principal.id")
-//	User updateUser(@PathVariable long id, @Valid @RequestBody(required = false) User userUpdate) {
-//		User updated = userService.update(id, userUpdate);
-//		return updated;
-//	}
+
 	
 	@PostMapping("/my-profile/{email}")
 	public ResponseEntity updateLoggedInUser(@PathVariable String email, @Valid @RequestBody(required = false) User userUpdate) {
