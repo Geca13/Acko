@@ -5,7 +5,12 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.acko.product.Category;
 import com.example.acko.product.CategoryRepository;
@@ -19,9 +24,9 @@ import com.example.acko.user.RoleRepository;
 
 @SpringBootApplication
 @EnableConfigurationProperties
-public class AckoApplication {
+public class AckoApplication extends SpringBootServletInitializer {
 	
-	private final String folderUrl = "/src/main/resources/static/images/";
+	private final String folderUrl = "/static/images/";
 	
 	@Autowired
 	RoleRepository roleRepository;
@@ -39,7 +44,27 @@ public class AckoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AckoApplication.class, args);
 		
+		
+		}
+	
+	protected SpringApplicationBuilder configure (SpringApplicationBuilder application) {
+		return application.sources(AckoApplication.class);
+		
 	}
+		@Configuration
+		public class WebConfig implements WebMvcConfigurer {  
+			
+	        @Override
+	        public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	            registry.addResourceHandler("/**")
+	            .addResourceLocations("classpath:/static/images/")
+	            .setCachePeriod(0);
+	        }
+	    }
+		
+
+	
+	
 	@PostConstruct
 	public void init() {
 	try {
@@ -62,7 +87,7 @@ public class AckoApplication {
 		categoryRepository.save(new Category(5L, "Thinners",folderUrl+"1-151.jfif"));
 		categoryRepository.save(new Category(6L, "Primers",folderUrl+"8-14510.jfif"));
 		categoryRepository.save(new Category(7L, "Helpers",folderUrl+"help.jfif"));
-		categoryRepository.save(new Category(8L, "Putties",folderUrl+"1-909.jfif"));
+		categoryRepository.save(new Category(8L, "Putties",folderUrl+"mirka.png"));
 		
 		productRepository.save(new Product(1L, producerRepository.findById(2L).get(), categoryRepository.findById(3L).get() , "8-104" , "HS , 2:1 " , 3500.00 , 760.00 ,folderUrl+ "8-104.jfif" , true));
 		productRepository.save(new Product(2L, producerRepository.findById(2L).get(), categoryRepository.findById(3L).get() , "8-214" , "Antiscrach HS , 2:1 " , 4200.00 , 950.00 ,folderUrl+ "8-214.jfif" , true));
@@ -72,7 +97,7 @@ public class AckoApplication {
 		productRepository.save(new Product(6L, producerRepository.findById(2L).get(), categoryRepository.findById(3L).get() , "1-204" , "MS , 5:1 " , 3000.00 , 680.00 ,folderUrl+ "214.jfif" , true));
 		productRepository.save(new Product(7L, producerRepository.findById(3L).get(), categoryRepository.findById(3L).get() , "4699" , "MS, 2:1 " , 2200.00 , 490.00 ,folderUrl+ "4699.jfif" , true));
 		productRepository.save(new Product(8L, producerRepository.findById(3L).get(), categoryRepository.findById(3L).get() , "4501" , "HS , 2:1 " , 2500.00 , 550.00 ,folderUrl+ "4501.jfif" , true));
-		productRepository.save(new Product(9L, producerRepository.findById(3L).get(), categoryRepository.findById(3L).get() , "4502" , "Antiscrach HS , 3:1 " , 3500.00 , 750.00 ,folderUrl+ "4501.jfif" , true));
+		productRepository.save(new Product(9L, producerRepository.findById(3L).get(), categoryRepository.findById(3L).get() , "4502" , "Antiscrach HS , 3:1 " , 3500.00 , 750.00 ,"4501.jfif" , true));
 		
 		
 		

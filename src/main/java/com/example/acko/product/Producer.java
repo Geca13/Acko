@@ -19,7 +19,7 @@ public class Producer {
 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String producer;
+	private String name;
 	
 	private String imageUrl;
 	}
